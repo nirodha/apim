@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><api xmlns="http://ws.apache.org/ns/synapse" name="admin--ResponseAPI" context="/response" version="1.0.0" version-type="url">
+    <resource methods="GET" url-mapping="/*">
+        <inSequence>
+            <script language="js">mc.setProperty('CONTENT_TYPE', 'application/json');    mc.setPayloadJSON('{ "data" : "sample JSON GET"}');//Un-comment the above to send a sample responce.</script>
+            <filter source="boolean(get-property('CONTENT_TYPE'))" regex="false">
+                <then>
+                    <property name="messageType" value="application/xml" scope="axis2"/>
+                </then>
+                <else>
+                    <property name="messageType" expression="get-property('CONTENT_TYPE')" scope="axis2"/>
+                </else>
+            </filter>
+            <property name="NO_ENTITY_BODY" scope="axis2" action="remove"/>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource methods="POST" url-mapping="/*">
+        <inSequence>
+            <property name="HTTP_SC" value="501" scope="axis2"/>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource methods="PUT" url-mapping="/*">
+        <inSequence>
+            <property name="HTTP_SC" value="501" scope="axis2"/>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource methods="DELETE" url-mapping="/*">
+        <inSequence>
+            <property name="HTTP_SC" value="501" scope="axis2"/>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+    <resource methods="OPTIONS" url-mapping="/*">
+        <inSequence>
+            <property name="HTTP_SC" value="501" scope="axis2"/>
+            <respond/>
+        </inSequence>
+        <outSequence>
+            <send/>
+        </outSequence>
+    </resource>
+    <handlers>
+        <handler class="org.wso2.carbon.apimgt.gateway.handlers.security.CORSRequestHandler"/>
+    </handlers>
+</api>
